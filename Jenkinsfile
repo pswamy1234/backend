@@ -8,65 +8,16 @@ pipeline {
         ansiColor('xterm')
 
     }
-    parameters {
-        choice(name: 'action', choices: ['Apply', 'Destroy'], description: 'Pick something')
-    }
+    
     stages {
-        stage('init') {
+        stage('test') {
             steps {
                 sh """
-                #ls -ltr 
-                cd 01-vpc
-                terraform init -reconfigure
+                echo "this is for testing"
                 """
             }
         }
-        stage('plan') {
-            when {
-                expression {
-                    params.action == "Apply"
-                }
-            }
-            steps {
-                sh """
-                cd 01-vpc
-                terraform plan
-                """
-            }
-        }
-        stage('apply') {
-             when {
-                expression {
-                    params.action == "Apply"
-                }
-            }
-            input {
-                message "Should we continue?"
-                ok "Yes, we should."
-                submitter "alice,bob"
-            }
-            steps {
-                sh """
-                cd 01-vpc
-                terraform apply -auto-approve
-                """
-            }
-        }
-        stage('destory') {
-             when {
-                expression {
-                    params.action == "Destroy"
-                }
-            }
-            steps {
-                sh """
-                cd 01-vpc
-                terraform destroy -auto-approve
-                """
-            }
-        }
-      
-    }
+       
      post { 
         always { 
             echo 'I will always say Hello again!'
