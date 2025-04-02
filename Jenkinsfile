@@ -14,6 +14,7 @@ pipeline {
             steps {
                 sh """
                 echo "this is for testing"
+                ls -ltr
                 """
             }
         }
